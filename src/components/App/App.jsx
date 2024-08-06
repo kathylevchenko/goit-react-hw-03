@@ -7,25 +7,28 @@ import css from "./App.module.css";
 
 
 export default function App(){
-const [contacts, setContacts] = useState(initialContacts);
+  const [contacts, setContacts] = useState(() => {
+    const savedContacts = localStorage.getItem("contacts");
+    return savedContacts !== null
+      ? JSON.parse(savedContacts)
+      : initialContacts;
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
  const [filter, setFilter] = useState('');
-const addUser = (newUser) => {
-    setContacts((prevContacts)=>{
-        const saveContacts = [...prevContacts,newUser];
-        localStorage.setItem("contacts", JSON.stringify(saveContacts));
-        return saveContacts;
-    }
-        )};
+ const addContact =(newContact)=>{
+  setContacts((prevContact)=>{
+    return[...prevContact, newContact]     
+  })
+}
        
-        const deleteContact = (contactId) => {
-            setContacts((prevContacts) => {
-              const saveContacts = prevContacts.filter(
-                (contact) => contact.id !== contactId
-              );
-              localStorage.setItem("contacts", JSON.stringify(saveContacts));
-              return saveContacts;
-            });
-          };
+const deleteContacts = (contactId) => {
+  setContacts((prevContacts) => {
+    return prevContacts.filter((contact) => contact.id !== contactId);
+  });
+};
 
   const visibleContacts = contacts.filter((contact) =>
    contact.name.toLowerCase().includes(filter.toLowerCase())
@@ -39,9 +42,9 @@ const addUser = (newUser) => {
         return (
             <div className={css.container}>
             <h1>Phonebook</h1>
-            <ContactForm onAdd = {addUser}/>
+            <ContactForm onAdd = {addContact}/>
             <SearchBox value={filter} onFilter={setFilter}/>
-            <ContactList contacts = {visibleContacts} onDelete={deleteContact}/>
+            <ContactList contacts = {visibleContacts} onDelete={deleteContacts}/>
           </div>
         );
     };
