@@ -1,11 +1,13 @@
 .filterInput{
-    input {
-        border: 2px solid #484646;
-        border-radius: 5px;
-        width: 253px;
-        margin-top: 10px;
-        margin-left: 15px;
-        padding: 8px 8px;
-        outline: none;
-      }
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;  
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.label{
+    font-size: large;
+    font-weight: 500;
 }

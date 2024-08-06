@@ -4,64 +4,59 @@ import { nanoid } from "nanoid";
 import css from "./ContactForm.module.css";
 import * as Yup from "yup";
 export default function ContactForm ({onAdd}){
-const ContactSchema = Yup.object().shape({
-        username: Yup.string()
-          .min(3, "Too short!")
-          .max(50,"Too long!")
-          .required("Required"),
-        number:Yup.string()
-        .min(3, "Too short!")
-        .max(12,"Too long!")
-        .required("Required"),});
-
-   
-    const fieldIdName = useId();
-    const fieldIdNumber = useId();
-    const handleSubmit = (values,actions) =>{
-        onAdd({
-            id: nanoid(),
-      name: values.name,
-      number: values.number,
-        });
-        actions.resetForm();
+    const formNameId = useId();
+    const formNumberId = useId();
+    const contactsSchema = Yup.object().shape({
+      name: Yup.string()
+        .min(3, "Too Short!")
+        .max(50, "Too Long!")
+        .required("Required"),
+      phone: Yup.string()
+        .min(9, "Too Short!")
+        .max(12, "Too Long!")
+        .required("Required"),
+    });
+    const handleSubmit = (values, actions) => {
+      onAdd({
+        id: nanoid(),
+        name: values.name,
+        number: values.phone,
+      });
+      actions.resetForm();
     };
-
-    
-    return(
-        <Formik
-        initialValues={{
-            username:"",
-            number:"",}}
-            validationSchema={ContactSchema}
-            onSubmit={handleSubmit}
-        >
-        <Form className={css.form}>
-            <div className={css.formGroup}>
-                <label htmlFor={fieldIdName}>Name</label>
-            <Field className={css.input} 
-            type="text" 
-            name = "username" 
-            id={fieldIdName}/>
-            <ErrorMessage className={css.error}
-            name="username"
-            component="span"
+    return (
+      <Formik
+        className={css.contactForm}
+        validationSchema={contactsSchema}
+        onSubmit={handleSubmit}
+        initialValues={{ name: "", phone: "" }}
+      >
+        <Form className={css.contactForm}>
+          <div className={css.inputContainer}>
+            <label htmlFor={formNameId}>Name</label>
+            <Field
+              className={css.nameInput}
+              id={formNameId}
+              type="text"
+              name="name"
             />
-             </div>
-             <div className={css.formGroup}>
-                <label htmlFor={fieldIdNumber}>Number</label>
-            <Field className={css.input}
-            type ="tel" 
-            name="number"
-            pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
-            id={fieldIdNumber}/>
-             <ErrorMessage className={css.error}
-            name="number"
-            component="span"
+            <ErrorMessage className={css.error} name="name" component="span" />
+          </div>
+          <div className={css.inputContainer}>
+            <label htmlFor={formNumberId}>Number</label>
+            <Field
+              className={css.nameInput}
+              id={formNumberId}
+              type="tel"
+              name="phone"
+              pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
             />
-            </div>
-            <button type="submit">Add contact</button>
-           
+            <ErrorMessage className={css.error} name="phone" component="span" />
+          </div>
+          <button className={css.buttonSubmit} type="submit">
+            Add contact
+          </button>
         </Form>
-        </Formik>
+      </Formik>
     );
-        }
+  }
