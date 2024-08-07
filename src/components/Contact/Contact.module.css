@@ -17,13 +17,6 @@
     border-radius: 5px;
   }
 
-  .contactName {
-    text-overflow: ellipsis;
-    max-width: 112px;
-    overflow: hidden;
-  }
-
-
   .fullList{
     display: flex;
    padding: 10px;

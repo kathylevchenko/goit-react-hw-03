@@ -4,7 +4,7 @@ import { useId } from 'react';
 export default function SearchBox({ value, onFilter }) {
     const finedId = useId();
     return (
-      <div className={css.filter}>
+      <div>
         <label className={css.label} htmlFor={finedId}>Find contacts by name</label>
         <input
           className={css.filterInput}
